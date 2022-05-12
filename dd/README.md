@@ -18,7 +18,7 @@
 
 此处提供的方法为
 
-true | dd status=none bs=1G of=$output-file-path seek=8
+true | dd status=none bs=1G of=$output_file_path seek=8
 
 使用指令 du $output_file_path 或 stat $output_file_path 可看见 此方法生成的文件占用 block 为 0 而 qemu-img 生成的文件不为 0
 
