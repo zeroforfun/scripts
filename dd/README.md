@@ -24,8 +24,8 @@ true | dd status=none bs=1G of=$output_file_path seek=8
 
 ### 进度显示
 
-#### 在 stderr 显示实时进度 dd status=progress if=/dev/zero of=/dev/null
-#### 结束时不 stderr 在显示进度 dd status=none if=/dev/zero of=/dev/null
+#### 在 stderr 实时显示进度 dd status=progress if=/dev/zero of=/dev/null
+#### 结束时不在 stderr 显示进度 dd status=none if=/dev/zero of=/dev/null
 
 dd 接收到 USR1 信号也会向 stderr 输出进度
 
