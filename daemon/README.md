@@ -39,3 +39,11 @@ $command 成为孤儿进程，孤儿进程会被操作系统继续向上寻找�
 #### bash -c "bash -c 'while :; do echo; sleep 0.5; done;' &" 0</dev/null 1>/dev/null 2>/dev/null
 
 原理可类比，不再赘述
+
+### 制作脚本方便使用
+
+脚本在本目录内 daemon 文件
+
+使用方法 ./daemon ncat -l 8080
+
+原理不赘述
