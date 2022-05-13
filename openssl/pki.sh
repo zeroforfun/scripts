@@ -106,8 +106,3 @@ openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/
 # ln -f -s crl/$(cat ./pki/crlnumber).pem ./pki/crl.pem
 # openssl ca -config ./pki/openssl.cnf -gencrl -out ./pki/crl.pem
 # openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/certs/clientcert.pem
-
-# openssl rsa -in ./pki/private/cakey.pem -text
-# openssl req -in ./pki/reqs/cacsr.pem -text
-# openssl x509 -in ./pki/certs/cacert.pem -text
-# openssl crl -in ./pki/crl.pem -crlnumber -text
