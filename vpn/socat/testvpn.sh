@@ -19,7 +19,7 @@ ip -netns netns1 address add 10.0.5.2/24 dev tap1
 ip -netns netns1 link set dev tap1 up
 ip netns exec netns1 bash -c "/usr/bin/ping -I tap1 -i 4 10.0.5.1 &" 0</dev/null 1>/dev/null 2>/dev/null
 ip netns exec netns0 bash -c "/usr/bin/socat -T5 tcp-listen:1500,fork,reuseaddr tun,iff-up,tun-type=tap,tun-name=tap0 &" 0</dev/null 1>/dev/null 2>/dev/null
-ip netns exec netns1 bash -c "/usr/bin/socat -T5 tcp:10.0.0.1:1500,retry=65536 tun,iff-up,tun-type=tap,tun-name=tap1 &" 0</dev/null 1>/dev/null 2>/dev/null
+ip netns exec netns1 bash -c "/usr/bin/socat -T5 tcp:10.0.0.1:1500,forever tun,iff-up,tun-type=tap,tun-name=tap1 &" 0</dev/null 1>/dev/null 2>/dev/null
 ip netns exec netns0 ping -i 0.1 -c 3 10.0.5.2
 ip netns exec netns1 ping -i 0.1 -c 3 10.0.5.1
 killall /usr/bin/socat
