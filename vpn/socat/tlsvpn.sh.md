@@ -52,6 +52,8 @@ echo 1 > /proc/sys/net/ipv4/ip_forward 开启路由转发
 
 iptables -t nat -I POSTROUTING -s 10.0.5.0/24 -j MASQUERADE 添加 nat 路由表
 
+MASQUERADE 参数是将 10.0.5.0/24 的请求路由到默认的路由表和默认的网卡
+
 ### 服务端关闭代码
 
 ### 客户端开启代码
