@@ -20,7 +20,7 @@ socat 支持连接成功时启动原本关闭的 tun/tap 设备
 
 此处测试时使用的 socat 版本支持 tls 1.2 不支持 tls 1.3 支持设置双方验证对方的 ca 支持验证对方 CN 不支持 crl 验证
 
-支持指定加密算法为 ECDHE-RSA-AES256-GCM-SHA384 不支持指定 ECDHE 中使用的曲线 支持指定客户端的 sni
+支持指定加密算法为 ECDHE-RSA-AES256-GCM-SHA384 不支持指定 ECDHE 中使用的曲线 支持客户端设置 sni
 
 因此 socat 对与 tls 的有限支持可以支撑 tls 加密的 vpn
 
