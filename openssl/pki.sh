@@ -69,7 +69,7 @@ subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid:always,issuer:always
 extendedKeyUsage=clientAuth
 EOF
-xxd -ps -u -l 16 /dev/urandom ./pki/serial
+xxd -ps -u -l 20 /dev/urandom ./pki/serial
 ln -s $(cat ./pki/serial).pem ./pki/private/cakey.pem
 ln -s $(cat ./pki/serial).pem ./pki/reqs/cacsr.pem
 ln -s $(cat ./pki/serial).pem ./pki/certs/cacert.pem
@@ -78,12 +78,12 @@ openssl genrsa -out ./pki/private/cakey.pem 4096
 openssl req -config ./pki/openssl.cnf -new -subj /CN=ca -key ./pki/private/cakey.pem -out ./pki/reqs/cacsr.pem
 openssl ca -config ./pki/openssl.cnf -selfsign -extensions v3_ca -batch -notext -in ./pki/reqs/cacsr.pem -out ./pki/cacert.pem
 
-xxd -ps -u -l 16 /dev/urandom ./pki/crlnumber
+xxd -ps -u -l 20 /dev/urandom ./pki/crlnumber
 ln -f -s crl/$(cat ./pki/crlnumber).pem ./pki/crl.pem
 openssl ca -config ./pki/openssl.cnf -gencrl -out ./pki/crl.pem
 openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/cacert.pem
 
-xxd -ps -u -l 16 /dev/urandom ./pki/serial
+xxd -ps -u -l 20 /dev/urandom ./pki/serial
 ln -s $(cat ./pki/serial).pem ./pki/private/serverkey.pem
 ln -s $(cat ./pki/serial).pem ./pki/reqs/servercsr.pem
 ln -s $(cat ./pki/serial).pem ./pki/certs/servercert.pem
@@ -92,7 +92,7 @@ openssl req -config ./pki/openssl.cnf -new -subj /CN=server -key ./pki/private/s
 openssl ca -config ./pki/openssl.cnf -extensions server -batch -notext -in ./pki/reqs/servercsr.pem -out ./pki/certs/servercert.pem
 openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/certs/servercert.pem
 
-xxd -ps -u -l 16 /dev/urandom ./pki/serial
+xxd -ps -u -l 20 /dev/urandom ./pki/serial
 ln -f -s $(cat ./pki/serial).pem ./pki/private/clientkey.pem
 ln -f -s $(cat ./pki/serial).pem ./pki/reqs/clientcsr.pem
 ln -f -s $(cat ./pki/serial).pem ./pki/certs/clientcert.pem
@@ -102,7 +102,7 @@ openssl ca -config ./pki/openssl.cnf -extensions client -batch -notext -in ./pki
 openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/certs/$(cat ./pki/serial.old).pem
 
 # openssl ca -config ./pki/openssl.cnf -revoke ./pki/certs/clientcert.pem
-# xxd -ps -u -l 16 /dev/urandom ./pki/crlnumber
+# xxd -ps -u -l 20 /dev/urandom ./pki/crlnumber
 # ln -f -s crl/$(cat ./pki/crlnumber).pem ./pki/crl.pem
 # openssl ca -config ./pki/openssl.cnf -gencrl -out ./pki/crl.pem
 # openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/certs/clientcert.pem
