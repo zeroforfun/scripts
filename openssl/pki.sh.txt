@@ -77,22 +77,22 @@ ln -s $(cat ./pki/serial).pem ./pki/private/cakey.pem
 ln -s $(cat ./pki/serial).pem ./pki/reqs/cacsr.pem
 ln -s $(cat ./pki/serial).pem ./pki/certs/cacert.pem
 ln -s certs/cacert.pem ./pki/cacert.pem
-openssl genrsa -out ./pki/private/cakey.pem 4096
-openssl req -config ./pki/openssl.cnf -new -subj /CN=ca -key ./pki/private/cakey.pem -out ./pki/reqs/cacsr.pem
-openssl ca -config ./pki/openssl.cnf -selfsign -extensions v3_ca -batch -notext -in ./pki/reqs/cacsr.pem -out ./pki/cacert.pem
+openssl genrsa -out ./pki/private/cakey.pem 4096 生成私钥
+openssl req -config ./pki/openssl.cnf -new -subj /CN=ca -key ./pki/private/cakey.pem -out ./pki/reqs/cacsr.pem 生成证书请求
+openssl ca -config ./pki/openssl.cnf -selfsign -extensions v3_ca -batch -notext -in ./pki/reqs/cacsr.pem -out ./pki/cacert.pem 自签证书
 
 xxd -ps -u -l 20 /dev/urandom ./pki/crlnumber
 ln -f -s crl/$(cat ./pki/crlnumber).pem ./pki/crl.pem
-openssl ca -config ./pki/openssl.cnf -gencrl -out ./pki/crl.pem
-openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/cacert.pem
+openssl ca -config ./pki/openssl.cnf -gencrl -out ./pki/crl.pem 生成证书吊销列表
+openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/cacert.pem 验证证书是否被正确签发 是否被吊销
 
 xxd -ps -u -l 20 /dev/urandom ./pki/serial
 ln -s $(cat ./pki/serial).pem ./pki/private/serverkey.pem
 ln -s $(cat ./pki/serial).pem ./pki/reqs/servercsr.pem
 ln -s $(cat ./pki/serial).pem ./pki/certs/servercert.pem
 openssl genrsa -out ./pki/private/serverkey.pem 4096
-openssl req -config ./pki/openssl.cnf -new -subj /CN=server -key ./pki/private/serverkey.pem -out ./pki/reqs/servercsr.pem
-openssl ca -config ./pki/openssl.cnf -extensions server -batch -notext -in ./pki/reqs/servercsr.pem -out ./pki/certs/servercert.pem
+openssl req -config ./pki/openssl.cnf -new -subj /CN=server -key ./pki/private/serverkey.pem -out ./pki/reqs/servercsr.pem 生成服务端证书请求
+openssl ca -config ./pki/openssl.cnf -extensions server -batch -notext -in ./pki/reqs/servercsr.pem -out ./pki/certs/servercert.pem 使用 ca 为 server 签发证书
 openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/certs/servercert.pem
 
 xxd -ps -u -l 20 /dev/urandom ./pki/serial
@@ -100,11 +100,11 @@ ln -f -s $(cat ./pki/serial).pem ./pki/private/clientkey.pem
 ln -f -s $(cat ./pki/serial).pem ./pki/reqs/clientcsr.pem
 ln -f -s $(cat ./pki/serial).pem ./pki/certs/clientcert.pem
 openssl genrsa -out ./pki/private/$(cat ./pki/serial).pem 4096
-openssl req -config ./pki/openssl.cnf -new -subj /CN=$(cat ./pki/serial) -key ./pki/private/$(cat ./pki/serial).pem -out ./pki/reqs/$(cat ./pki/serial).pem
-openssl ca -config ./pki/openssl.cnf -extensions client -batch -notext -in ./pki/reqs/$(cat ./pki/serial).pem -out ./pki/certs/$(cat ./pki/serial).pem
+openssl req -config ./pki/openssl.cnf -new -subj /CN=$(cat ./pki/serial) -key ./pki/private/$(cat ./pki/serial).pem -out ./pki/reqs/$(cat ./pki/serial).pem 生成服务端证书请求
+openssl ca -config ./pki/openssl.cnf -extensions client -batch -notext -in ./pki/reqs/$(cat ./pki/serial).pem -out ./pki/certs/$(cat ./pki/serial).pem 使用 ca 为 client 签发证书
 openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/certs/$(cat ./pki/serial.old).pem
 
-# openssl ca -config ./pki/openssl.cnf -revoke ./pki/certs/clientcert.pem
+# openssl ca -config ./pki/openssl.cnf -revoke ./pki/certs/clientcert.pem 吊销证书
 # xxd -ps -u -l 20 /dev/urandom ./pki/crlnumber
 # ln -f -s crl/$(cat ./pki/crlnumber).pem ./pki/crl.pem
 # openssl ca -config ./pki/openssl.cnf -gencrl -out ./pki/crl.pem
