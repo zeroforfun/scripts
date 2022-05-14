@@ -55,17 +55,17 @@ authorityKeyIdentifier=keyid:always,issuer:always
 basicConstraints=critical,CA:true
 keyUsage=cRLSign,keyCertSign
 
-[ crl_ext ] 生成证书吊销列表使用的配置
+[ crl_ext ] 生成证书吊销列表使用的扩展
 authorityKeyIdentifier=keyid:always,issuer:always
 
-[ server ] 生成服务端证书使用的配置
+[ server ] 生成服务端证书使用的扩展
 basicConstraints=CA:FALSE
 keyUsage=digitalSignature,keyEncipherment
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid:always,issuer:always
 extendedKeyUsage=serverAuth
 
-[ client ] 生成客户端证书使用的配置
+[ client ] 生成客户端证书使用的扩展
 basicConstraints=CA:FALSE
 keyUsage=digitalSignature,keyEncipherment
 subjectKeyIdentifier=hash
