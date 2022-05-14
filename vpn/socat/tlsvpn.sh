@@ -28,7 +28,7 @@ ip link set dev tap0 up
 ip route add 0.0.0.0/1 via 10.0.5.1 dev tap0
 ip route add 128.0.0.0/1 via 10.0.5.1 dev tap0
 bash -c "/usr/bin/ping -I tap0 -i 4 10.0.5.1 &" 0</dev/null 1>/dev/null 2>/dev/null
-bash -c "/usr/bin/socat -T5 openssl:SERVERIP:8443,cipher=ECDHE-RSA-AES256-GCM-SHA384,verify=1,commonname=server,cafile=/dev/shm/server.crt,certificate=/dev/shm/client.crt,key=/dev/shm/client.key,retry=65536 tun,iff-up,tun-type=tap,tun-name=tap0 &" 0</dev/null 1>/dev/null 2>/dev/null
+bash -c "/usr/bin/socat -T5 openssl:SERVERIP:8443,cipher=ECDHE-RSA-AES256-GCM-SHA384,verify=1,commonname=server,cafile=/dev/shm/server.crt,certificate=/dev/shm/client.crt,key=/dev/shm/client.key,forever tun,iff-up,tun-type=tap,tun-name=tap0 &" 0</dev/null 1>/dev/null 2>/dev/null
 
 killall /usr/bin/socat
 killall /usr/bin/ping
