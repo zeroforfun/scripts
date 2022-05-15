@@ -86,7 +86,15 @@ GET 方法为把 dns(udp 53) 报文经过 base64 转码处理放在 url 里面
 
 curl -s -H 'accept: application/dns-message' -o - https://8.8.8.8/dns-query?dns=AAABAAABAAAAAAAAA2RucwZnb29nbGUAAAEAAQ | xxd
 
+(请求的是 dns.google 的域名 随机位均为 0)
+
 curl -s -H 'accept: application/dns-message' -o - https://1.1.1.1/dns-query?dns=AAABAAABAAAAAAAADmNsb3VkZmxhcmUtZG5zA2NvbQAAAQAB | xxd
+
+(请求的是 cloudflare-dns.com 的域名 随机位均为 0)
+
+curl -s -H 'accept: application/dns-message' -o - https://9.9.9.9/dns-query?dns=AAABAAABAAAAAAAABXF1YWQ5A25ldAAAAQAB | xxd
+
+(请求的是 quad9.net 的域名 随机位均为 0)
 
 此处使用 STRING 需要对 base64 转码结果进行的处理 + 替换为 -   / 替换为 _   删去 =
 
