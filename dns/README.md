@@ -106,6 +106,8 @@ Heads 需要 content-type: application/dns-message
 
 回复均把 dns(udp 53) 报文放在 https 的 Body 里面
 
+若不通过 https 访问而是通过 http 访问可能无法连接到 80 端口 (8.8.8.8 8.8.4.4 9.9.9.9) 也可能会收到 http 协议重定向的 status (1.1.1.1 1.0.0.1)
+
 ### dot+json(dns over https json 443)
 
 向 google cloudflare 发送的请求中 Headers 需要 accept: application/dns-json
