@@ -120,11 +120,11 @@ curl 使用参数 --proxytunnel 即为为 http 连接使用 CONNECT 方法的代
 
 curl -x https://127.0.0.1:8443
 
---proxy-insecure 即为不验证 https 代理服务端的公钥
+--proxy-insecure 即为不验证 https 代理服务端的证书
 
---proxy-cacert --proxy-capath 可为验证 https 代理服务端的公钥提供 ca 的公钥文件或路径
+--proxy-cacert --proxy-capath 可为验证 https 代理服务端的证书提供 ca 的证书文件或路径
 
---proxy-cert --proxy-key 可指定连接 https 代理服务器使用的客户端的公钥 私钥
+--proxy-cert --proxy-key 可指定连接 https 代理服务器使用的客户端的证书 私钥
 
 ### 软件的支持与代理的转换与嵌套
 
