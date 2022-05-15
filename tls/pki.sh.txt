@@ -1,0 +1,111 @@
+#!/usr/bin/bash
+# bash cat ln mkdir openssl touch xxd
+mkdir ./pki/{,certs/,crl/,newcerts/,private/,reqs/}
+touch ./pki/{index.txt,index.txt.attr}
+证书数据库 ./pki/index.txt
+证书数据库特性 ./pki/index.txt.attr 会被写入 unique_subject = yes
+写入配置文件
+cat << EOF > ./pki/openssl.cnf
+[ ca ] 指定 ca 命令使用的参数
+default_ca=CA_default 默认 ca 为 [ CA_default ]
+
+[ CA_default ]
+dir=./pki/ 指定目录
+certs=./pki/certs/ 指定证书存储目录
+crl_dir=./pki/crl/ 指定证书吊销列表目录
+database=./pki/index.txt 指定证书列表数据库
+unique_subject=yes 设置不同证书 subject 不能相同
+new_certs_dir=./pki/newcerts/ 指定新证书目录 由 openssl 生成 文件名为 证书相应 serial 后缀为 pem
+certificate=./pki/cacert.pem 指定 ca 公钥位置
+serial=./pki/serial 指定读取生成证书使用的 serial 文件位置 文件中为大写 16 进制数字 以 \n 为结尾
+crlnumber=./pki/crlnumber 指定读取生成证书吊销列表使用的 crlnumber 文件位置 文件中为大写 16 进制数字 以 \n 为结尾
+crl=./pki/crl.pem 指定证书吊销列表的位置
+private_key=./pki/private/cakey.pem 指定 ca 私钥位置
+crl_extensions=crl_ext 指定生成证书吊销列表使用的字段为 [ crl_ext ]
+default_days=365 指定证书默认有效天数
+default_crl_days=365 指定证书吊销列表默认有效天数
+default_md=sha256 指定默认哈希算法
+preserve=no 签发证书 subject 顺序不必与请求 subject 一致
+policy=policy_anything 指定签发证书时的政策字段为 [ policy_anything ]
+
+[ policy_anything ] 指定签发证书使用的 subject commonName 为必需 其他可有可无
+countryName=optional
+stateOrProvinceName=optional
+localityName=optional
+organizationName=optional
+organizationalUnitName=optional
+commonName=supplied
+name=optional
+emailAddress=optional
+
+[ req ] 指定 req 命令使用的参数
+default_bits=4096 默认新密钥长度
+default_keyfile=privkey.pem 默认新密钥位置
+default_md=sha256 证书请求默认哈希算法
+distinguished_name=req_distinguished_name 证书请求默认 subject 字段
+x509_extensions=v3_ca 自签名证书可通过 req 命令加参数 -x509 自签名证书的扩展配置字段为 [ v3_ca ]
+
+[ req_distinguished_name ]
+commonName=CN 默认 subject 的 commonName 为 CN
+commonName_max=64 commonName 最长长度
+
+[ v3_ca ] 自签名证书使用的扩展配置 此脚本中 ca 命令添加了参数 -extensions v3_ca 即 ca 签发证书时同样使用本配置
+keyUsage=cRLSign,keyCertSign
+basicConstraints=critical,CA:true
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer:always
+
+[ crl_ext ] 生成证书吊销列表使用的扩展
+authorityKeyIdentifier=keyid:always,issuer:always
+
+[ server ] 生成服务端证书使用的扩展
+keyUsage=digitalSignature,keyEncipherment
+extendedKeyUsage=serverAuth
+basicConstraints=critical,CA:FALSE
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer:always
+
+[ client ] 生成客户端证书使用的扩展
+keyUsage=digitalSignature,keyEncipherment
+extendedKeyUsage=clientAuth
+basicConstraints=critical,CA:FALSE
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer:always
+EOF
+xxd -ps -u -l 20 /dev/urandom ./pki/serial
+ln -s $(cat ./pki/serial).pem ./pki/private/cakey.pem
+ln -s $(cat ./pki/serial).pem ./pki/reqs/cacsr.pem
+ln -s $(cat ./pki/serial).pem ./pki/certs/cacert.pem
+ln -s certs/cacert.pem ./pki/cacert.pem
+openssl genrsa -out ./pki/private/cakey.pem 4096 生成私钥
+openssl req -config ./pki/openssl.cnf -new -subj /CN=ca -key ./pki/private/cakey.pem -out ./pki/reqs/cacsr.pem 生成证书请求
+openssl ca -config ./pki/openssl.cnf -selfsign -extensions v3_ca -batch -notext -in ./pki/reqs/cacsr.pem -out ./pki/cacert.pem 自签证书
+
+xxd -ps -u -l 20 /dev/urandom ./pki/crlnumber
+ln -f -s crl/$(cat ./pki/crlnumber).pem ./pki/crl.pem
+openssl ca -config ./pki/openssl.cnf -gencrl -out ./pki/crl.pem 生成证书吊销列表
+openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/cacert.pem 验证证书是否被正确签发 是否被吊销
+
+xxd -ps -u -l 20 /dev/urandom ./pki/serial
+ln -s $(cat ./pki/serial).pem ./pki/private/serverkey.pem
+ln -s $(cat ./pki/serial).pem ./pki/reqs/servercsr.pem
+ln -s $(cat ./pki/serial).pem ./pki/certs/servercert.pem
+openssl genrsa -out ./pki/private/serverkey.pem 4096
+openssl req -config ./pki/openssl.cnf -new -subj /CN=server -key ./pki/private/serverkey.pem -out ./pki/reqs/servercsr.pem 生成服务端证书请求
+openssl ca -config ./pki/openssl.cnf -extensions server -batch -notext -in ./pki/reqs/servercsr.pem -out ./pki/certs/servercert.pem 使用 ca 为 server 签发证书
+openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/certs/servercert.pem
+
+xxd -ps -u -l 20 /dev/urandom ./pki/serial
+ln -f -s $(cat ./pki/serial).pem ./pki/private/clientkey.pem
+ln -f -s $(cat ./pki/serial).pem ./pki/reqs/clientcsr.pem
+ln -f -s $(cat ./pki/serial).pem ./pki/certs/clientcert.pem
+openssl genrsa -out ./pki/private/$(cat ./pki/serial).pem 4096
+openssl req -config ./pki/openssl.cnf -new -subj /CN=$(cat ./pki/serial) -key ./pki/private/$(cat ./pki/serial).pem -out ./pki/reqs/$(cat ./pki/serial).pem 生成服务端证书请求
+openssl ca -config ./pki/openssl.cnf -extensions client -batch -notext -in ./pki/reqs/$(cat ./pki/serial).pem -out ./pki/certs/$(cat ./pki/serial).pem 使用 ca 为 client 签发证书
+openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/certs/$(cat ./pki/serial.old).pem
+
+# openssl ca -config ./pki/openssl.cnf -revoke ./pki/certs/clientcert.pem 吊销证书
+# xxd -ps -u -l 20 /dev/urandom ./pki/crlnumber
+# ln -f -s crl/$(cat ./pki/crlnumber).pem ./pki/crl.pem
+# openssl ca -config ./pki/openssl.cnf -gencrl -out ./pki/crl.pem
+# openssl verify -crl_check -CAfile ./pki/cacert.pem -CRLfile ./pki/crl.pem ./pki/certs/clientcert.pem
