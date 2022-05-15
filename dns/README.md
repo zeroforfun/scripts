@@ -80,7 +80,7 @@ https://9.9.9.9/dns-query
 
 请求分为 GET 和 POST 两种方法
 
-GET 方法为把 dns(udp 53) 报文经过 base64 转码处理放在 url 里面
+#### GET 方法为把 dns(udp 53) 报文经过 base64 转码处理放在 url 里面
 
 例如
 
@@ -100,7 +100,7 @@ curl -s -H 'accept: application/dns-message' -o - https://9.9.9.9/dns-query?dns=
 
 Headers 需要 accept: application/dns-message
 
-POST 方法为把 dns(udp 53) 报文放在 https 的 Body 里面
+#### POST 方法为把 dns(udp 53) 报文放在 https 的 Body 里面
 
 Heads 需要 content-type: application/dns-message
 
@@ -116,7 +116,7 @@ google url https://8.8.8.8/resolve?name=www.google.com&type=A
 
 cloudflare url  https://1.1.1.1/dns-query?name=www.google.com&type=A
 
-因为此协议为不成为的协议 两个厂商的 url 不同
+因为此协议为不成文的协议 两个厂商的 url 不同
 
 可见 cloudflare 的 dot 和 dot+json 的 url 相同
 
