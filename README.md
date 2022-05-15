@@ -25,3 +25,5 @@ https://github.com/zeroforfun/scripts/tree/main/gfw/
 #### 一百年不犹豫
 
 #### 一千年不动摇
+
+网络基础知识 https://github.com/zeroforfun/scripts/tree/main/ip/
