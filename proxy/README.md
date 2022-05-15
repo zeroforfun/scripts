@@ -22,6 +22,8 @@ udp 和 服务端 bind 通常不应被使用 可能带来网络安全风险
 
 microsocks 不会按照协议向客户端发送 tcp 连接目标服务器使用的真实地址 相关字节填充为 0 不支持 udp 不支持 bind 因此 microsocks 为更好选择
 
+后台运行 microsocks 的方法 /usr/bin/bash -c "/usr/bin/microsocks -i 127.0.0.1 -p 1080 &" 0</dev/null 1>/dev/null 2>/dev/null
+
 bind 不安全的原因是会令服务端监听一个端口 不必要不安全
 
 udp 不安全的原因是服务器会监听另外一个 udp 端口 并把地址发送给客户端 不安全
@@ -48,7 +50,7 @@ bash -c 'echo -ne "\x5\x1\x0"; sleep 0.5; echo -ne "\x5\x3\x0\x1\x8\x8\x8\x8\x0\
 
 若返回 0500 0507 0001 0000 0000 0000 则不支持 udp 则安全
 
-上述的几条命令中仅为 socks5 客户端的极其简陋的实现 sleep 后为秒数 应为 1 个 rtt 的时间 如果命令失败且使用 curl 成功则应延长 sleep 时间并将 xxd 改为 cat -v 直至 cat -v 可以打印期待的报文再换做 xxd 查看具体报文 或可使用 ncat 与 curl 使用 curl 作为 socks5 客户端 使用 ncat 转发并留存通信内容
+上述的几条命令中仅为 socks5 客户端的极其简陋的实现 sleep 后为秒数 应为 1 个 rtt 的时间 如果命令失败且使用 curl 成功则应延长 sleep 时间并将 xxd 改为 cat -v 直至 cat -v 可以打印期待的报文再换做 xxd 查看具体报文 或可使用 ncat 与 curl 使用 curl 作为 socks5 客户端 使用 ncat 转发并留存通信内
 
 #### socks5 和 socks5h
 
