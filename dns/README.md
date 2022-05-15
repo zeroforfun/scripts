@@ -114,6 +114,20 @@ google url https://8.8.8.8/resolve?name=www.google.com&type=A
 
 cloudflare url  https://1.1.1.1/dns-query?name=www.google.com&type=A
 
+因为此协议为不成为的协议 两个厂商的 url 不同
+
+可见 cloudflare 的 dot 和 dot+json 的 url 相同
+
+cloudflare 需要根据 Headers 中的 accept 字段决定返回结果
+
+浏览器默认状态下访问 https://1.1.1.1/dns-query?name=www.google.com&type=A 不会看到正确结果
+
+因此 google 的 dot 和 dot+json 的 url 不同
+
+google 不需要严格根据 Headers 中的 accept 字段决定返回结果
+
+浏览器默认状态下访问 https://8.8.8.8/resolve?name=www.google.com&type=A 也可以正确结果
+
 ### 墙国下三滥的手段
 
 #### dns(udp 53)
