@@ -5,8 +5,8 @@ echo -n www.kernel.org | perl -e 'printf("%04x",int(rand(65536)));printf("%020b"
 echo -n www.kernel.org | perl -e '$i=<STDIN>;printf("%04x",length($i)+18);printf("%04x",int(rand(65536)));printf("%020b",266240);foreach$s(split(/\./,$i)){printf("%02x",length($s));foreach$c(split(//,$s)){printf("%x",ord($c))}}printf("%010b",17)' | xxd -ps -r | socat - tcp-connect:1.1.1.1:53 | xxd
 
 # dot
-echo -n www.kernel.org | perl -e '$i=<STDIN>;printf("%04x",length($i)+18);printf("%04x",int(rand(65536)));printf("%020b",266240);foreach$s(split(/\./,$i)){printf("%02x",length($s));foreach$c(split(//,$s)){printf("%x",ord($c))}}printf("%010b",17)' | bash -c 'xxd -ps -r; sleep 1' | socat - OPENSSL:9.9.9.9:853,capath=/etc/ssl/certs/ | xxd
-echo -n www.google.com | perl -e '$i=<STDIN>;printf("%04x",length($i)+18);printf("%04x",int(rand(65536)));printf("%020b",266240);foreach$s(split(/\./,$i)){printf("%02x",length($s));foreach$c(split(//,$s)){printf("%x",ord($c))}}printf("%010b",17)' | bash -c 'xxd -ps -r; sleep 1' | socat - OPENSSL:9.9.9.9:853,capath=/etc/ssl/certs/ | xxd
+echo -n www.kernel.org | perl -e '$i=<STDIN>;printf("%04x",length($i)+18);printf("%04x",int(rand(65536)));printf("%020b",266240);foreach$s(split(/\./,$i)){printf("%02x",length($s));foreach$c(split(//,$s)){printf("%x",ord($c))}}printf("%010b",17)' | bash -c 'xxd -ps -r; sleep 1' | socat - OPENSSL:1.1.1.1:853,capath=/etc/ssl/certs/ | xxd
+echo -n www.google.com | perl -e '$i=<STDIN>;printf("%04x",length($i)+18);printf("%04x",int(rand(65536)));printf("%020b",266240);foreach$s(split(/\./,$i)){printf("%02x",length($s));foreach$c(split(//,$s)){printf("%x",ord($c))}}printf("%010b",17)' | bash -c 'xxd -ps -r; sleep 1' | socat - OPENSSL:1.1.1.1:853,capath=/etc/ssl/certs/ | xxd
 
 # doh
 # POST
