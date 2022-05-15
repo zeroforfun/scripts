@@ -84,25 +84,25 @@ https://9.9.9.9/dns-query
 
 例如
 
-curl -s -H 'accept: application/dns-message' -o - https://8.8.8.8/dns-query?dns=AAABAAABAAAAAAAAA2RucwZnb29nbGUAAAEAAQ | xxd
+curl -s -H 'Accept: application/dns-message' -o - https://8.8.8.8/dns-query?dns=AAABAAABAAAAAAAAA2RucwZnb29nbGUAAAEAAQ | xxd
 
 (请求的是 dns.google 的域名 随机位均为 0)
 
-curl -s -H 'accept: application/dns-message' -o - https://1.1.1.1/dns-query?dns=AAABAAABAAAAAAAADmNsb3VkZmxhcmUtZG5zA2NvbQAAAQAB | xxd
+curl -s -H 'Accept: application/dns-message' -o - https://1.1.1.1/dns-query?dns=AAABAAABAAAAAAAADmNsb3VkZmxhcmUtZG5zA2NvbQAAAQAB | xxd
 
 (请求的是 cloudflare-dns.com 的域名 随机位均为 0)
 
-curl -s -H 'accept: application/dns-message' -o - https://9.9.9.9/dns-query?dns=AAABAAABAAAAAAAABXF1YWQ5A25ldAAAAQAB | xxd
+curl -s -H 'Accept: application/dns-message' -o - https://9.9.9.9/dns-query?dns=AAABAAABAAAAAAAABXF1YWQ5A25ldAAAAQAB | xxd
 
 (请求的是 quad9.net 的域名 随机位均为 0)
 
 此处使用 STRING 需要对 base64 转码结果进行的处理 + 替换为 -   / 替换为 _   删去 =
 
-Headers 需要 accept: application/dns-message
+Headers 需要 Accept: application/dns-message
 
 #### POST 方法为把 dns(udp 53) 报文放在 https 的 Body 里面
 
-Heads 需要 content-type: application/dns-message
+Heads 需要 Content-Type: application/dns-message
 
 回复均把 dns(udp 53) 报文放在 https 的 Body 里面
 
@@ -110,7 +110,7 @@ Heads 需要 content-type: application/dns-message
 
 ### dot+json(dns over https json 443)
 
-向 google cloudflare 发送的请求中 Headers 需要 accept: application/dns-json
+向 google cloudflare 发送的请求中 Headers 需要 Accept: application/dns-json
 
 google url https://8.8.8.8/resolve?name=www.google.com&type=A
 
