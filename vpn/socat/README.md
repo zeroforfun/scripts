@@ -4,6 +4,8 @@
 
 且支持 tun 与 tap 两种模式
 
+同时 socat 支持 tls 可以尝试用来搭建 tls vpn
+
 因 tap 设备比 tun 设备支持更复杂的功能 此处不讨论 tun 设备
 
 ### 警示
