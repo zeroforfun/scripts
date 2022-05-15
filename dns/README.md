@@ -16,7 +16,7 @@ quad9(ibm) 9.9.9.9
 
 google cloudflare 支持 dot+json
 
-quad 不支持 dot+json
+quad 未找到对于 dot+json 的支持
 
 墙国 dns 114.114.114.114
 
@@ -30,9 +30,13 @@ quad 不支持 dot+json
 
 1.1.1.1 1.0.0.1 853 443 默认发送的证书 CN 均为 cloudflare-dns.com
 
-当访问 https://8.8.8.8/ https://8.8.4.4/ https://1.1.1.1/ https://1.0.0.1/ 时
+域名 quad9.net 的 dns 解析结果不为 9.9.9.9
 
-相应服务器仍然发送 dns.google 或 cloudflare-dns.com 的证书
+9.9.9.9 853 443 默认发送的证书 CN 均为 *.quad9.net
+
+当访问 https://8.8.8.8/ https://8.8.4.4/ https://1.1.1.1/ https://1.0.0.1/ https://9.9.9.9/ 时
+
+相应服务器仍然发送 dns.google 或 cloudflare-dns.com *.quad9.net 的证书
 
 这些证书均使用了 X509v3 Subject Alternative Name 的扩展
 
@@ -42,7 +46,9 @@ DNS:dns.google, DNS:dns.google.com, DNS:*.dns.google.com, DNS:8888.google, DNS:d
 
 DNS:cloudflare-dns.com, DNS:*.cloudflare-dns.com, DNS:one.one.one.one, IP Address:1.1.1.1, IP Address:1.0.0.1, IP Address:162.159.36.1, IP Address:162.159.46.1, IP Address:2606:4700:4700:0:0:0:0:1111, IP Address:2606:4700:4700:0:0:0:0:1001, IP Address:2606:4700:4700:0:0:0:0:64, IP Address:2606:4700:4700:0:0:0:0:6400
 
-https 客户端支持这样的扩展 因此访问 https://8.8.8.8/ https://8.8.4.4/ https://1.1.1.1/ https://1.0.0.1/ 仍然可以识别认可为 dns.google cloudflare-dns.com 签发的证书
+DNS:*.quad9.net, DNS:quad9.net, IP Address:9.9.9.9, IP Address:9.9.9.10, IP Address:9.9.9.11, IP Address:9.9.9.12, IP Address:9.9.9.13, IP Address:9.9.9.14, IP Address:9.9.9.15, IP Address:149.112.112.9, IP Address:149.112.112.10, IP Address:149.112.112.11, IP Address:149.112.112.12, IP Address:149.112.112.13, IP Address:149.112.112.14, IP Address:149.112.112.15, IP Address:149.112.112.112, IP Address:2620:FE:0:0:0:0:0:9, IP Address:2620:FE:0:0:0:0:0:10, IP Address:2620:FE:0:0:0:0:0:11, IP Address:2620:FE:0:0:0:0:0:12, IP Address:2620:FE:0:0:0:0:0:13, IP Address:2620:FE:0:0:0:0:0:14, IP Address:2620:FE:0:0:0:0:0:15, IP Address:2620:FE:0:0:0:0:0:FE, IP Address:2620:FE:0:0:0:0:FE:9, IP Address:2620:FE:0:0:0:0:FE:10, IP Address:2620:FE:0:0:0:0:FE:11, IP Address:2620:FE:0:0:0:0:FE:12, IP Address:2620:FE:0:0:0:0:FE:13, IP Address:2620:FE:0:0:0:0:FE:14, IP Address:2620:FE:0:0:0:0:FE:15
+
+https 客户端支持这样的扩展 因此访问 https://8.8.8.8/ https://8.8.4.4/ https://1.1.1.1/ https://1.0.0.1/ https://9.9.9.9/ 仍然可以识别认可为 dns.google cloudflare-dns.com *.quad9.net 签发的证书
 
 ### dns(udp 53)
 
