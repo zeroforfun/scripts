@@ -22,7 +22,7 @@ bind 不安全的原因是会令服务端监听一个端口 不必要不安全
 
 udp 不安全的原因是服务器会监听另外一个 udp 端口 并把地址发送给客户端 不安全
 
-常用 udp 协议仅为 dns 可以使用其他 dns 协议获取 dns 比如 dns over tcp   dns over hot   dns over doh
+常用 udp 协议仅为 dns 可以使用其他 dns 协议获取 dns 比如 dns over tcp   dns over dot   dns over doh
 
 测试指令
 
