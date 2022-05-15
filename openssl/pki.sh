@@ -47,27 +47,27 @@ commonName=CN
 commonName_max=64
 
 [ v3_ca ]
+keyUsage=cRLSign,keyCertSign
+basicConstraints=critical,CA:true
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid:always,issuer:always
-basicConstraints=critical,CA:true
-keyUsage=cRLSign,keyCertSign
 
 [ crl_ext ]
 authorityKeyIdentifier=keyid:always,issuer:always
 
 [ server ]
-basicConstraints=CA:FALSE
 keyUsage=digitalSignature,keyEncipherment
+extendedKeyUsage=serverAuth
+basicConstraints=critical,CA:FALSE
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid:always,issuer:always
-extendedKeyUsage=serverAuth
 
 [ client ]
-basicConstraints=CA:FALSE
 keyUsage=digitalSignature,keyEncipherment
+extendedKeyUsage=clientAuth
+basicConstraints=critical,CA:FALSE
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid:always,issuer:always
-extendedKeyUsage=clientAuth
 EOF
 xxd -ps -u -l 20 /dev/urandom ./pki/serial
 ln -s $(cat ./pki/serial).pem ./pki/private/cakey.pem
