@@ -66,7 +66,7 @@ POST 其他方法可类比
 
 Headers 其他字段支持其他一些功能 Proxy-Connection Proxy-Authorization 提供认证 连接重用等功能
 
-代理服务器应把代理相关 Headers 删去发送给目标服务器
+代理服务器应把代理相关 Headers 删去后发送给目标服务器
 
 #### CONNECT 方法
 
