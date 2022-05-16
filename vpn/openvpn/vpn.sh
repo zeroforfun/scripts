@@ -10,10 +10,10 @@ echo 0 > /proc/sys/net/ipv4/ip_forward
 openvpn --daemon --config $client_conf_path
 
 ip route get $server_ip
+ip route add $server_ip via $server_ip_gateway
 ip route add 0.0.0.0/1 via 10.8.0.1
 ip route add 128.0.0.0/1 via 10.8.0.1
-ip route add $server_ip via $server_ip_gateway
 
-ip route add $server_ip
 ip route del 128.0.0.0/1
 ip route del 0.0.0.0/1
+ip route del $server_ip
