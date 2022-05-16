@@ -38,7 +38,7 @@ $command 成为孤儿进程，孤儿进程会被操作系统继续向上寻找�
 
 #### bash -c "bash -c 'while :; do echo; sleep 0.5; done;' &" 0</dev/null 1>/dev/null 2>/dev/null
 
-原理可类比，不再赘述
+原理可类比，此处第一个 bash 退出 第二个 bash 作为孤儿进程 后台执行 bash 脚本
 
 ### 制作脚本方便使用
 
