@@ -90,6 +90,10 @@ Headers 其他字段支持其他一些功能 Proxy-Connection Proxy-Authorizatio
 
 代理服务器应把代理相关 Headers 删去后发送给目标服务器
 
+代理服务器会在 Headers 向目标服务器发送客户端地址等信息
+
+根据发送的信息 又分为透明代理 匿名代理等 若配置错会带来网络安全风险
+
 #### CONNECT 方法
 
 由于 https 不应由 http 代理获取修改 http 报文 因此需要 CONNECT 方法作为代理协议代理 https 协议
