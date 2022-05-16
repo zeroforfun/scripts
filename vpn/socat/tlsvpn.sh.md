@@ -28,6 +28,8 @@
 
 若不希望使用 10.0.5.0/24 网段 可替换为其他网段和地址
 
+脚本分为 5 个部分 分别为 自签名证书 服务端开启代码 服务端关闭代码 客户端开启代码 客户端关闭代码 此处对部分指令做简单说明
+
 ### 自签名证书
 
 openssl req -x509 -newkey rsa:4096 -days 365 -nodes -keyout /dev/shm/server.key -out /dev/shm/server.crt -subj "/CN=server" 2>/dev/null
@@ -40,11 +42,11 @@ openssl req -x509 -newkey rsa:4096 -days 365 -nodes -keyout /dev/shm/client.key 
 
 /dev/shm/ 中的文件储存在 linux 内存中 关机后文件丢失 应根据习惯与情况更换文件路径
 
-双方应把自己的公钥 (server.crt client.crt) 发送给对方作为 cafile 公钥可公开 私钥 (server.key client.key) 不可公开
+双方应把自己的证书 (server.crt client.crt) 发送给对方作为 cafile 证书可公开 私钥 (server.key client.key) 不可公开
 
 指令会读取默认路径为 /etc/ssl/openssl.cfg 作为配置文件 可使用默认的文件 无配置文件 openssl 指令执行会失败
 
-若不希望使用自签名证书 可参考 https://github.com/zeroforfun/scripts/tree/main/openssl/pki.sh 构建 pki
+若不希望使用自签名证书 可参考 https://github.com/zeroforfun/scripts/tree/main/tls/pki.sh 构建 pki
 
 ### 服务端开启代码
 
