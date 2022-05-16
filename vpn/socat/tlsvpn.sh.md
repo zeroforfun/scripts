@@ -50,11 +50,15 @@ openssl req -x509 -newkey rsa:4096 -days 365 -nodes -keyout /dev/shm/client.key 
 
 ### 服务端开启代码
 
-echo 1 > /proc/sys/net/ipv4/ip_forward 开启路由转发
+echo 1 > /proc/sys/net/ipv4/ip_forward 开启路由转发 关机后失效
 
-iptables -t nat -I POSTROUTING -s 10.0.5.0/24 -j MASQUERADE 添加 nat 路由表
+iptables -t nat -I POSTROUTING -s 10.0.5.0/24 -j MASQUERADE 添加 nat 路由表 关机后失效
 
-MASQUERADE 参数是将 10.0.5.0/24 的请求路由到默认的路由表和默认的网卡
+MASQUERADE 参数是将 10.0.5.0/24 的请求根据默认的路由表进行处理
+
+iptables -t nat -L 可用于查看 nat 表 iptables -t nat -F 可用于清理 nat 表
+
+ iptables-save 可查看当前防火墙的多种规则
 
 ### 服务端关闭代码
 
@@ -64,7 +68,7 @@ ip -json route get SERVERIP | jq -r .[0].gateway | xargs ip route add SERVERIP v
 
 ip -json route get SERVERIP | jq -r .[0].gateway 获取服务端 ip 原有的路由网关
 
-ip route add SERVERIP via GATEWAY 确保服务端 ip 路由路径没有改变 否则数据会在客户端循环发生错误
+ip route add SERVERIP via GATEWAY 确保服务端 ip 路由路径没有改变 否则数据会在客户端死循环发生错误
 
 ip route add 0.0.0.0/1 via 10.0.5.1 dev tap0 和 ip route add 128.0.0.0/1 via 10.0.5.1 dev tap0
 
