@@ -274,5 +274,12 @@ nat 设备收到后, 将建立一个 1.2.3.4:53000 与 8.8.8.8:53 的 tcp 连接
 
 此时 nat 将每一个内网 ip 的行为映射到公网 ip, 不篡改端口等信息
 
+### 七、ip 虚拟网络设备
 
+此处主要介绍 bridge veth macvlan macvtap ipvlan ipvtap tun tap
 
+### 八、network space
+
+linux 内核支持在 linux 添加 network space, 简称为 netns, 相关命令为 ip netns add netns0, ip netns del netns0
+
+netns 实现了网络隔离, 
