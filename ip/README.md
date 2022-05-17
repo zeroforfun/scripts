@@ -208,7 +208,7 @@ route 也可用来搭建复杂的局域网, 因此不与公网通信的局域网
 
 ### 五、nat
 
-为了为私有地址发起向公网的通信, 采用了 nat 的方法, 即 Network Address Translators 网络地址转换
+为了向私有地址提供向公网的通信, 采用了 nat 的方法, 即 Network Address Translators 网络地址转换
 
 私有地址无法通过 route 的方法与公网相互通信,
 
